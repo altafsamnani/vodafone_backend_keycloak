@@ -16,7 +16,7 @@ The project is created with
 
 1. Do  ```make setup``` to install the required libraries. We will be using MakeFile magic to setup.
 
-2. Execute ```make up```, which will create the setup for the assignment and installation for you, If you are setting it up first time, please be patient and it will take some time. For Subsequent sail commands it will be quicker.
+2. Execute ```make up```, which will create the setup for the assignment and installation for you, If you are setting it up first time, please be patient and it will take some time. For Subsequent make commands it will be quicker.
 
  Pleae refer MakeFile for detailed commands and docker-composer.yml to understand docker setup, Once docker containers are up, it will be running at 
  http://localhost/ for Laravel Endpoints (using Starwar apis)
