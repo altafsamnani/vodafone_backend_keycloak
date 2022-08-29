@@ -22,11 +22,11 @@ The project is created with
  http://localhost/ for Laravel Endpoints (using Starwar apis)
  http://localhost:85/auth for Keycloak server
 
-It uses mariadb as a database, nginx as a server and keycloak image for the server. 
+It uses mariadb as a database, nginx as a server and keycloak image for the authentication. 
 
 It will also run ```php artisan migrate ``` and ```php artisan db:seed``` for migrations and database seeding. 
 
-3. Database will be setup for Laravel and Keycloak and will be available respectively at 3306 and 3307 port.
+3. Database will be setup for Laravel and Keycloak and will be available respectively at localhost:3306 and localhost:3307 port and you can use any mysql client to connect with the database
 
 
 ## Explaination
@@ -34,7 +34,7 @@ It will also run ```php artisan migrate ``` and ```php artisan db:seed``` for mi
 I have used Laravel which is a ModelViewController Framework and using artisan commands to demonstrate the console commands
 There are app varialbes inside an .env file including db connection variables, Since it's a relatively small project and all are console commands, the processing happens inside the Console Commands Files. No services, transformers etc.
 
-We are using keycloak server, after setting up the keycloak resource, scope, permissions and users, Laravel is having a middleware to protect the routes
+We are using keycloak server, after setting up the keycloak resource, scope, permissions and users, In Laravel there is a middleware to protect the routes
   - 1 PLEASE REFER config/auth.php
   ``` "api" => [ "driver" => "keycloak", "provider" => "users",],], ```
 
