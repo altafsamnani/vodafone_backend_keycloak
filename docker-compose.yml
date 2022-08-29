@@ -1,0 +1,97 @@
+version: '3.9'
+services:
+  php:
+    build:
+      context: .docker/php
+      dockerfile: dockerfile
+    container_name: ${APP_NAME:?err}-php
+    links:
+      - 'mariadb'
+    volumes:
+      - './:/var/www'
+      - .docker/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+    depends_on:
+      - mariadb
+    networks:
+      - app-network
+  nginx:
+    image: nginx:latest
+    container_name: ${APP_NAME:?err}-nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - 'php'
+    volumes:
+      - './:/var/www'
+      - '.docker/nginx:/etc/nginx/conf.d'
+    depends_on:
+          - mariadb
+    networks:
+      - app-network
+  mariadb:
+    image: mariadb:latest
+    container_name: ${APP_NAME:?err}-mariadb
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    expose:
+      - '${DB_PORT}'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_TCP_PORT: '${DB_PORT}'
+    volumes:
+      - dbdata:/var/lib/mysql/
+    restart: 'on-failure'
+    networks:
+      - app-network
+  mariadb_keycloak:
+    image: mariadb:latest
+    container_name: ${APP_NAME:?err}-mariadb-keycloak
+    ports:
+      - '${DB_KEYCLOAK_PORT}:${DB_KEYCLOAK_PORT}'
+    expose:
+      - '${DB_KEYCLOAK_PORT}'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: '${DB_KEYCLOAK_NAME}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_TCP_PORT: '${DB_KEYCLOAK_PORT}'
+    volumes:
+      - keycloakdata:/var/lib/mysql/
+    restart: 'on-failure'
+    networks:
+      - app-network
+  keycloak:
+    image: jboss/keycloak:10.0.1
+    container_name: ${APP_NAME:?err}-keycloak
+    ports:
+      - "85:8080"
+    environment:
+      PROXY_ADDRESS_FORWARDING: "true"
+      DB_VENDOR: mariadb
+      DB_ADDR: '${DB_KEYCLOAK_HOST}'
+      DB_PORT: '${DB_KEYCLOAK_PORT}'
+      DB_DATABASE: '${DB_KEYCLOAK_NAME}'
+      DB_USER: '${DB_KEYCLOAK_USERNAME}'
+      DB_PASSWORD: '${DB_KEYCLOAK_PASSWORD}'
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    depends_on:
+      - '${DB_KEYCLOAK_HOST}'
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+  keycloakdata:
+    driver: local
