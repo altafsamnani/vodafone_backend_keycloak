@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repository\Contract\RepositoryInterface;
+use App\Repository\Contract\EloquentRepositoryInterface as RepositoryInterface;
 use App\Repository\SpeciesRepository;
 use App\Services\Contracts\SpeciesServiceInterface;
 use App\Transformers\SpeciesTransformer;

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repository\Contract\RepositoryInterface;
+use App\Repository\Contract\EloquentRepositoryInterface as RepositoryInterface;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
@@ -38,10 +38,10 @@ class AbstractService
     /**
      * @param int $id
      *
-     * @return array
+     * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get(int $id): array
+    public function get(int $id)
     {
         $url = sprintf('%s/%d', $this->uri, $id);
 

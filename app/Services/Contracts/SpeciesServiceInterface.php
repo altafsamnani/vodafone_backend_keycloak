@@ -2,8 +2,6 @@
 
 namespace App\Services\Contracts;
 
-use Psr\Http\Message\ResponseInterface;
-
 /**
  * Interface SpeciesServiceInterface.
  */
@@ -19,8 +17,8 @@ interface SpeciesServiceInterface
     /**
      * @param int $id
      *
-     * @return array
+     * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get(int $id) : array;
+    public function get(int $id) : mixed;
 }
