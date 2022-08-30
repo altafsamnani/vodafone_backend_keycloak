@@ -17,13 +17,4 @@ class PlanetRepository extends BaseRepository
         parent::__construct($model);
     }
 
-    public function getAnswer()
-    {
-        $model = $this->model
-            ->select('question.id', 'question.title', 'answer.title as answertitle')
-            ->join('answer', 'answer.question_id', '=', 'question.id')->get();
-
-        return $model;
-    }
-
 }
