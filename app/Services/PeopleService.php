@@ -56,7 +56,7 @@ class PeopleService extends AbstractService implements PeopleServiceInterface
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get(int $id)
+    public function get(int $id): mixed
     {
         $listPeople = $this->respository->find($id);
         if($listPeople)

@@ -41,7 +41,7 @@ class AbstractService
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get(int $id)
+    public function get(int $id): mixed
     {
         $url = sprintf('%s/%d', $this->uri, $id);
 
