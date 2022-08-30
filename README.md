@@ -10,6 +10,8 @@ The project is created with
 - Artisan Commands
 - Phpunit Testcases
 
+<img src="https://raw.githubusercontent.com/robsontenorio/laravel-keycloak-guard/master/flow.png"/>
+
 ## Installation
 
 ## Installation
