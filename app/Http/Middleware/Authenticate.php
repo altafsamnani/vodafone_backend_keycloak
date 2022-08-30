@@ -35,6 +35,16 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        if($user = $this->auth->guard($guard)->user())
+        {
+            $vfConfig = config('vodafone');
+            $scopes = explode(' ', $user->token->scope);
+            if(!in_array($vfConfig['allowed_keycloak_scope'], $scopes))
+            {
+                return response('User doesnt have '.$vfConfig['allowed_keycloak_scope'].' scope', 401)->header('content-type', 'application/json');
+            }
+        }
+
         if ($this->auth->guard($guard)->guest()) {
             $error['error'] = 'Unauthorized, please use the valid bearer token';
 
